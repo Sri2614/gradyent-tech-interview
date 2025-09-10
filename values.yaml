@@ -82,10 +82,3 @@ affinity:
             - tech-interview
         topologyKey: kubernetes.io/hostname
 
-# ArgoCD Ingress managed by this chart
-argocd:
-  ingress:
-    enabled: true
-    host: tech-interview-argo.cloudsslcert.com
-    className: nginx
-    servicePort: 80
