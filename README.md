@@ -1,58 +1,57 @@
-# Tech Interview EKS Deployment
+# Gradyent Tech Interview - EKS Setup
 
-Deploy `gradyent/tech-interview:latest` on EKS with ArgoCD.
+This repo contains the Kubernetes deployment for the Gradyent tech interview application.
 
-## What This Does
+## What's Included
 
-Runs the tech interview app on Kubernetes with:
-* Health checks: `GET /` returns "OK", `GET /hello` returns "world"
-* Security: non-root containers, network policies
-* Resource limits: 100m CPU, 128Mi memory per pod
-* ArgoCD: deploy by pushing to git
+I've set up a production-ready deployment that runs the `gradyent/tech-interview:latest` image on EKS. The app has two endpoints:
+- `GET /` returns "OK" 
+- `GET /hello` returns "world"
 
-## Requirements Met
+## Interview Requirements
 
-• **Scalability**: 2 replicas, pod anti-affinity
-• **Monitoring**: Readiness/liveness probes on port 8080
-• **Cost**: Resource limits, no autoscaling overhead
-• **Ease of Use**: GitOps with ArgoCD
+Here's how I addressed each requirement:
 
-## Bonus Features
+• **Scalability**: Running 2 replicas with pod anti-affinity to spread across nodes
+• **Monitoring**: Added readiness and liveness probes on port 8080
+• **Cost**: Set resource limits and kept it simple (no autoscaling overhead)
+• **Ease of Use**: Everything deploys via ArgoCD - just push to git
 
-* GitHub Actions CI/CD
-* SSL with AWS ACM and GoDaddy for DNS
+## Extra Features
+
+I also added some nice-to-haves:
+* GitHub Actions for CI/CD
+* SSL certificates with AWS ACM and GoDaddy DNS
 * Network policies for security
-* Prometheus monitoring ready
+* Prometheus monitoring labels (ready to go)
 
+## Setup Details
 
-## Configuration
-
-* 2 replicas
+The deployment runs:
+* 2 pod replicas
 * 100m CPU, 128Mi memory per pod
 * Health checks on port 8080
-* Non-root containers
+* Non-root containers for security
 * Network policies enabled
 
-## Access
+## How to Access
 
-* App: https://tech-interview-gradyent.cloudsslcert.com
-* ArgoCD: Use port-forward for access
+**Application**: https://tech-interview-gradyent.cloudsslcert.com
 
-Test:
+Test the endpoints:
 ```bash
-curl https://tech-interview-gradyent.cloudsslcert.com/      # returns "OK"
-curl https://tech-interview-gradyent.cloudsslcert.com/hello # returns "world"
+curl https://tech-interview-gradyent.cloudsslcert.com/      # should return "OK"
+curl https://tech-interview-gradyent.cloudsslcert.com/hello # should return "world"
 ```
 
-ArgoCD Access:
+**ArgoCD UI**: 
 ```bash
 # Port forward to ArgoCD
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 
-# Get admin password
+# Get the admin password
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
-# Visit: https://localhost:8080
-# Username: admin
-# Password: [from command above]
+# Open browser to: https://localhost:8080
+# Login with: admin / [password from above]
 ```
