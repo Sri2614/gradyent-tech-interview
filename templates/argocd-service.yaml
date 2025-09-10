@@ -1,0 +1,14 @@
+{{- if .Values.argocd.ingress.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-server
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ExternalName
+  externalName: argocd-server.argocd.svc.cluster.local
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+{{- end }}
