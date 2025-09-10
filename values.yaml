@@ -9,14 +9,78 @@ service:
   type: ClusterIP
   port: 8080
 
+
 ingress:
   enabled: true
   host: tech-interview-gradyent.cloudsslcert.com
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 resources:
   limits:
-    cpu: 200m
-    memory: 128Mi
+    cpu: 500m
+    memory: 512Mi
   requests:
     cpu: 100m
-    memory: 64Mi
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+
+networkPolicy:
+  enabled: true
+  allowedNamespaces:
+    ingress: "ingress-nginx"
+    monitoring: "monitoring"
+
+monitoring:
+  enabled: false
+  labels:
+    prometheus: "kube-prometheus"
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 2000
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+    - ALL
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 2000
+  seccompProfile:
+    type: RuntimeDefault
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  # Pod anti-affinity for security isolation
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - tech-interview
+        topologyKey: kubernetes.io/hostname

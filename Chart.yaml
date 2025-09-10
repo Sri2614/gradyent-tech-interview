@@ -1,5 +1,22 @@
 apiVersion: v2
 name: tech-interview
-description: A simple Helm chart for tech-interview application
-version: 0.1.0
+description: Production-ready Helm chart for Gradyent tech interview application with monitoring, security, and scalability features
+type: application
+version: 1.0.0
 appVersion: "latest"
+keywords:
+  - tech-interview
+  - gradyent
+  - kubernetes
+  - production
+  - monitoring
+  - security
+home: https://github.com/Sri2614/gradyent-tech-interview
+sources:
+  - https://github.com/Sri2614/gradyent-tech-interview
+maintainers:
+  - name: DevOps Team
+    email: devops@gradyent.com
+annotations:
+  category: Application
+  licenses: MIT
