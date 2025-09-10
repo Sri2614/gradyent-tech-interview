@@ -12,10 +12,10 @@ Runs the tech interview app on Kubernetes with:
 
 ## Requirements Met
 
-**Scalability**: 2 replicas, pod anti-affinity
-**Monitoring**: Readiness/liveness probes on port 8080
-**Cost**: Resource limits, no autoscaling overhead
-**Ease of Use**: GitOps with ArgoCD
+• **Scalability**: 2 replicas, pod anti-affinity
+• **Monitoring**: Readiness/liveness probes on port 8080
+• **Cost**: Resource limits, no autoscaling overhead
+• **Ease of Use**: GitOps with ArgoCD
 
 ## Bonus Features
 
