@@ -36,7 +36,7 @@ Runs the tech interview app on Kubernetes with:
 ## Access
 
 * App: https://tech-interview-gradyent.cloudsslcert.com
-* ArgoCD: Use `kubectl port-forward svc/argocd-server -n argocd 8080:443`
+* ArgoCD: https://tech-interview-argo.cloudsslcert.com
 
 Test:
 ```bash
