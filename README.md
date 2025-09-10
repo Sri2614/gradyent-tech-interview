@@ -12,10 +12,13 @@ I've set up a production-ready deployment that runs the `gradyent/tech-interview
 
 Here's how I addressed each requirement:
 
-• **Scalability**: Running 2 replicas with pod anti-affinity to spread across nodes
-• **Monitoring**: Added readiness and liveness probes on port 8080
-• **Cost**: Set resource limits and kept it simple (no autoscaling overhead)
-• **Ease of Use**: Everything deploys via ArgoCD - just push to git
+**Scalability**: Running 2 replicas with pod anti-affinity to spread across nodes
+
+**Monitoring**: Added readiness and liveness probes on port 8080
+
+**Cost**: Set resource limits and kept it simple (no autoscaling overhead)
+
+**Ease of Use**: Everything deploys via ArgoCD
 
 ## Extra Features
 
