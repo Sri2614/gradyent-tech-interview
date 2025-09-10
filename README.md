@@ -59,31 +59,6 @@ Deploys a containerized application to Kubernetes with:
 * **Pod security standards** with seccomp profiles
 * **No privileged containers** or unnecessary capabilities
 
-## How to Deploy
-
-```bash
-# Install ArgoCD
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-# Setup this repository
-kubectl apply -f argocd-app.yaml
-
-# Deploy
-argocd app sync tech-interview-gradyent
-```
-
-## Making Changes
-
-Just push to this repository. ArgoCD watches for changes and automatically deploys them.
-
-```bash
-# Scale to 3 replicas
-echo "replicaCount: 3" >> values.yaml
-git commit -am "Scale to 3 replicas"
-git push
-# App automatically scales in ~1 minute
-```
 
 ## Repository Structure
 
@@ -170,45 +145,5 @@ This setup handles production workloads with:
 * **Automated monitoring** and health checking
 * **Network isolation** for enhanced security
 
-**Total setup time**: ~10 minutes. **Deployment time**: ~2 minutes from Git push to live.
-
-## Troubleshooting
-
-**Common Issues**
-
-1. **Pods not starting**
-   ```bash
-   kubectl get pods -n production
-   kubectl describe pod <pod-name> -n production
-   kubectl logs <pod-name> -n production
-   ```
-
-2. **Network policy blocking traffic**
-   ```bash
-   kubectl get networkpolicy -n production
-   kubectl describe networkpolicy tech-interview-network-policy -n production
-   ```
-
-3. **ArgoCD sync issues**
-   ```bash
-   kubectl get application -n argocd
-   kubectl describe application tech-interview-gradyent -n argocd
-   ```
-
-## Cleanup
-
-```bash
-# Delete ArgoCD application
-kubectl delete application tech-interview-gradyent -n argocd
-
-# Uninstall Helm release
-helm uninstall tech-interview -n production
-
-# Destroy infrastructure (if using Terraform)
-cd terraform
-terraform destroy
-```
 
 ---
-
-**This solution demonstrates a secure, production-ready deployment of the tech interview application on AWS EKS with comprehensive security hardening, GitOps automation, and monitoring capabilities.**
