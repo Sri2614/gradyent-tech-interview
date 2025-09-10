@@ -13,6 +13,7 @@ service:
 ingress:
   enabled: true
   host: tech-interview-gradyent.cloudsslcert.com
+  className: nginx
 
 resources:
   limits:
