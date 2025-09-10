@@ -1,0 +1,13 @@
+# Required Variables
+cluster_name = "your-eks-cluster-name"
+ingress_host = "your-domain.com"
+
+# Optional Variables (uncomment to override defaults)
+# aws_region = "us-east-1"
+# namespace = "default"
+# image_repository = "gradyent/tech-interview"
+# image_tag = "latest"
+# replicas = 2
+# ingress_class = "nginx"
+# argocd_app_name = "tech-interview-gradyent"
+# argocd_namespace = "argocd"
