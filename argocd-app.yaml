@@ -1,0 +1,66 @@
+# ArgoCD Application for your GitHub repo
+# File: argocd-github-app.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tech-interview-gradyent
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    app: tech-interview
+    source: github
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Sri2614/gradyent-tech-interview.git
+    targetRevision: HEAD  # or specify branch like 'main'
+    path: .  # Root directory (adjust if your chart is in a subdirectory)
+    helm:
+      parameters:
+      - name: ingress.host
+        value: tech-interview-gradyent.cloudsslcert.com
+      - name: replicaCount
+        value: "2"
+      - name: image.repository
+        value: gradyent/tech-interview
+      - name: image.tag
+        value: latest
+      # Add any other parameters you want to override
+      valueFiles: []  # If you have additional values files
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default  # Your existing namespace
+  syncPolicy:
+    automated:
+      prune: false  # Don't auto-delete resources initially
+      selfHeal: false  # Don't auto-fix manual changes initially
+    syncOptions:
+    - CreateNamespace=false  # Don't recreate default namespace
+    - Replace=false  # Don't replace existing resources forcefully
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  revisionHistoryLimit: 10
+
+---
+# Optional: Repository credentials (if private repo)
+# Skip this if your repo is public
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-repo-secret
+  namespace: argocd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+type: Opaque
+stringData:
+  type: git
+  url: https://github.com/Sri2614/gradyent-tech-interview.git
+  # For private repos, add:
+  # username: Sri2614
+  # password: your-github-token
