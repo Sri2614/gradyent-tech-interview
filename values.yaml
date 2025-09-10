@@ -13,10 +13,6 @@ service:
 ingress:
   enabled: true
   host: tech-interview-gradyent.cloudsslcert.com
-  className: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 resources:
   limits:
@@ -84,3 +80,11 @@ affinity:
             values:
             - tech-interview
         topologyKey: kubernetes.io/hostname
+
+# ArgoCD Ingress managed by this chart
+argocd:
+  ingress:
+    enabled: true
+    host: tech-interview-argo.cloudsslcert.com
+    className: nginx
+    servicePort: 80
